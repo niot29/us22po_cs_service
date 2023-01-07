@@ -18,3 +18,4 @@ networks:
   db:
     driver: bridge
 volumes:
+  db:
