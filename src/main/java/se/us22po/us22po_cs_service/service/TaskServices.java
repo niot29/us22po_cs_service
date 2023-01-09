@@ -110,7 +110,7 @@ public class TaskServices {
      * @param mtask
      * @return String
      */
-    public String manageTask(CustomerTaskEntity mtask){
+    public void manageTask(CustomerTaskEntity mtask){
         logger.info("manageTask()");
         String returnMsg = null;
 
@@ -119,7 +119,7 @@ public class TaskServices {
         }
         returnMsg = updateTask(mtask);
 
-        return returnMsg;
+        //return returnMsg;
     }
 
     @Transactional
