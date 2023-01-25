@@ -1,21 +1,45 @@
+version: "3.8"
 services:
-  db:
-    container_name: postgres
+  ### Postgres Database ###
+  postgres:
+    container_name: pg_u22_cs
     image: postgres
     environment:
       POSTGRES_USER: pgadmin
       POSTGRES_PASSWORD: password
+      POSTGRES_DB: customer_service
       PGDATA: /data/postgres
     volumes:
-      - db:/data/postgres
+      - pg_vol:/data/postgres
     ports:
       - "5332:5432"
     networks:
-      - db
+      - apllication_net
     restart: unless-stopped
 
+  ### Postgres Adminer ###
+  postgres_admin:
+    image: dpage/pgadmin4
+    depends_on:
+      - postgres
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.de
+      PGADMIN_DEFAULT_PASSWORD: password
+    ports:
+      - "5050:80"
+    networks:
+      - apllication_net
+
+### API Spring Boot ###
+  foreignCurrencyService:
+    image: fc_service:1.0
+    ports:
+      - "8181:8080"
+    networks:
+      - apllication_net
+
 networks:
-  db:
+  apllication_net:
     driver: bridge
 volumes:
-  db:
+  pg_vol:

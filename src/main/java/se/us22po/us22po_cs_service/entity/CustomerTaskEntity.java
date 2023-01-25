@@ -20,7 +20,7 @@ public class CustomerTaskEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long customerId;
+    private String customerId;
 
     @Column(length=1001)
     private String tasks;
@@ -33,7 +33,7 @@ public class CustomerTaskEntity {
     @UpdateTimestamp
     private Timestamp updateDateTime;
 
-    public CustomerTaskEntity(Long id, Long customerId, String tasks, String priority, String status, Timestamp createDateTime, Timestamp updateDateTime) {
+    public CustomerTaskEntity(Long id, String customerId, String tasks, String priority, String status, Timestamp createDateTime, Timestamp updateDateTime) {
         this.id = id;
         this.customerId = customerId;
         this.tasks = tasks;
