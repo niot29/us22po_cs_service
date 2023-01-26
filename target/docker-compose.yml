@@ -17,6 +17,17 @@ services:
       - apllication_net
     restart: unless-stopped
 
+  ### Mysql ###
+  mysql:
+    container_name: businessdata
+    image: businessdata:1.1
+    volumes:
+      - pg_vol:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    networks:
+      - apllication_net
+
   ### Postgres Adminer ###
   postgres_admin:
     image: dpage/pgadmin4
@@ -31,10 +42,27 @@ services:
       - apllication_net
 
 ### API Spring Boot ###
+  # /api/v1/price
   foreignCurrencyService:
     image: fc_service:1.0
+    container_name: fc_service
     ports:
       - "8181:8080"
+    networks:
+      - apllication_net
+
+  # /api/v1/task
+  customerService:
+    image: u22po_cs_service:1.0
+    container_name: cs_service
+    depends_on:
+      - postgres
+    environment:
+      DATABASE_URL: postgresql://pg_u22_cs:5432/customer_service
+      POSTGRES_USER: pgadmin
+      POSTGRES_PASSWORD: password
+    ports:
+      - "8282:8080"
     networks:
       - apllication_net
 
