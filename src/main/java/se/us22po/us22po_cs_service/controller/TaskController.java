@@ -36,7 +36,7 @@ public class TaskController {
     }
     @GetMapping("{customerId}")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public List<CustomerTaskEntity> getAllCustomerTask(@PathVariable ("customerId") Long customerId){
+    public List<CustomerTaskEntity> getAllCustomerTask(@PathVariable ("customerId") String customerId){
         logger.info("getAllCustomerTask()");
         return taskServices.getAllTaskByCustomerId(customerId);
     }
@@ -67,7 +67,7 @@ public class TaskController {
 
     @DeleteMapping("{customerId}")
     @ResponseStatus(HttpStatus.OK)
-    public String deletCutomerTask(@PathVariable ("customerId") Long customerId){
+    public String deletCutomerTask(@PathVariable ("customerId") String customerId){
         logger.info("deletCutomerTask()");
         return taskServices.deleteCutomerTaskById(customerId);
     }

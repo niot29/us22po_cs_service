@@ -10,9 +10,9 @@ import java.util.Optional;
 @Repository
 public interface TaskRepositoryInterface extends JpaRepository<CustomerTaskEntity, Long> {
 
-    List<CustomerTaskEntity> findByCustomerIdOrderByCreateDateTimeDesc(Long customerId);
+    List<CustomerTaskEntity> findByCustomerIdOrderByCreateDateTimeDesc(String customerId);
 
-    CustomerTaskEntity findByIdAndCustomerId(Long id, Long customerId);
+    CustomerTaskEntity findByIdAndCustomerId(Long id, String customerId);
 
-    void deleteAllByCustomerId(Long customerId);
+    void deleteByCustomerId(String customerId);
 }

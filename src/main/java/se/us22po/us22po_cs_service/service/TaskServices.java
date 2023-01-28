@@ -35,7 +35,7 @@ public class TaskServices {
      * @param customerId - Get all customer task by ID
      * @return  List
      */
-    public List<CustomerTaskEntity> getAllTaskByCustomerId(Long customerId){
+    public List<CustomerTaskEntity> getAllTaskByCustomerId(String customerId){
         logger.info("getAllTaskByCustomerId(): ");
         return taskRepo.findByCustomerIdOrderByCreateDateTimeDesc(customerId);
     }
@@ -44,7 +44,7 @@ public class TaskServices {
      * @param cutomerId - List all Customer task record from repository by customer Id
      * @return List
      */
-    public List<CustomerTaskEntity> getAllCustomerTask(Long cutomerId){
+    public List<CustomerTaskEntity> getAllCustomerTask(String cutomerId){
         logger.info("getAllCustomerTask()");
         return taskRepo.findByCustomerIdOrderByCreateDateTimeDesc(cutomerId);
     }
@@ -123,9 +123,10 @@ public class TaskServices {
     }
 
     @Transactional
-    public String deleteCutomerTaskById(Long customerId){
+    public String deleteCutomerTaskById(String customerId){
         logger.info("deleteCutomerTask()");
-        taskRepo.deleteAllByCustomerId(customerId);
+        taskRepo.deleteByCustomerId(customerId);
+
         return "customer Task deleted";
     }
 }
