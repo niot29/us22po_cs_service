@@ -55,7 +55,7 @@ public class TaskServices {
      * @return String
      */
     @Transactional
-    private String createTask(CustomerTaskEntity ctask){
+    private Boolean createTask(CustomerTaskEntity ctask){
         logger.info("createTask():");
 
         try{
@@ -66,7 +66,7 @@ public class TaskServices {
             ctask.setCreateDateTime(createTime);
             ctask.setUpdateDateTime(createTime);
             taskRepo.save(ctask);
-            return "The task is saved";
+            return true;
         }catch (Exception e){
             logger.warn("The task can't be save, something is wrong");
             throw e;
@@ -80,7 +80,7 @@ public class TaskServices {
      * @return String
      */
     @Transactional
-    public String updateTask(CustomerTaskEntity utask){
+    public boolean updateTask(CustomerTaskEntity utask){
         logger.info("updateTask():");
         try{
             CustomerTaskEntity oldTask = taskRepo.findById(utask.getId()).get();
@@ -89,12 +89,12 @@ public class TaskServices {
 
             if (utask.getCustomerId() != oldTask.getCustomerId()){
                 logger.warn("Cant update this task, this customer id is not the same");
-                return "Cant update this task, this customer id is not the same";
+                return false;
             }
             utask.setCreateDateTime(oldTask.getCreateDateTime());
             utask.setUpdateDateTime(createTime);
             taskRepo.save(utask);
-            return "The task is Updated";
+            return true;
 
 
         }catch (Exception e){
@@ -110,14 +110,14 @@ public class TaskServices {
      * @param mtask
      * @return String
      */
-    public void manageTask(CustomerTaskEntity mtask){
+    public boolean manageTask(CustomerTaskEntity mtask){
         logger.info("manageTask()");
         String returnMsg = null;
 
         if(mtask.getId() == null){
-            returnMsg = createTask(mtask);
+            return createTask(mtask);
         }
-        returnMsg = updateTask(mtask);
+        return updateTask(mtask);
 
         //return returnMsg;
     }

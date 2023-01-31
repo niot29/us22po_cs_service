@@ -5,6 +5,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import se.us22po.us22po_cs_service.entity.CustomerTaskEntity;
 import se.us22po.us22po_cs_service.service.TaskServices;
@@ -43,9 +45,16 @@ public class TaskController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void createTask(@RequestBody CustomerTaskEntity task){
+    public  ResponseEntity<String> createTask(@RequestBody CustomerTaskEntity task){
         logger.info("createTask(): {}", task);
-        taskServices.manageTask(task);
+        //taskServices.manageTask(task);
+        Boolean status = taskServices.manageTask(task);
+        if(status == false){
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).contentType(MediaType.APPLICATION_JSON_UTF8).body("cant be save or update (CODE 406)\n");
+        }else {
+            return ResponseEntity.status(HttpStatus.CREATED).contentType(MediaType.APPLICATION_JSON_UTF8).body("Save and updated (CODE 201)\n");
+        }
+
         //return taskServices.manageTask(task);
     }
 
